@@ -1,49 +1,68 @@
 package Avore.model;
 
-public class No<E> {
-	private E dado;
-	private No<?> pai;
-	private No<?> fesq;
-	private No<?> fdire;
+public class No<E extends Comparable<E>> {
+	/* Atributos */
+	private E dado;		//Valor do nó
+	private int bal;	//Balanceamento do nó
+	private No<E> pai;	//Nó pai
+	private No<E> fesq; //Nó filho esquerdo
+	private No<E> fdir;	//Nó filho direito
 	
+	/* Construtores */
 	public No() {
+		this.dado = null;
+		this.bal = 0;
 		this.pai = null;
 		this.fesq = null;
-		this.fdire = null;
-		this.dado = null;
-	}
-	
-	public E getDado() {
-		return dado;
+		this.fdir = null;
 	}
 
+	public No(E dado) {
+		this();
+		setDado(dado);
+	}
+	
+	/* Métodos Set */
 	public void setDado(E dado) {
 		this.dado = dado;
 	}
 
-	public No<?> getPai() {
-		return pai;
+	public void setBal(int bal) {
+		this.bal = bal;
 	}
-	
-	public void setPai(No<?> pai) {
+
+	public void setPai(No<E> pai) {
 		this.pai = pai;
 	}
-	
-	public No<?> getFesq() {
-		return fesq;
-	}
-	
-	public void setFesq(No<?> fesq) {
+
+	public void setFesq(No<E> fesq) {
 		this.fesq = fesq;
 	}
 	
-	public No<?> getFdire() {
-		return fdire;
+	public void setFdir(No<E> fdir) {
+		this.fdir = fdir;
 	}
 	
-	public void setFdire(No<?> fdire) {
-		this.fdire = fdire;
+
+	/* Métodos Get */
+	public E getDado() {
+		return dado;
+	}
+
+	public int getBal() {
+		return  bal;
+	}
+
+	public No<E> getPai() {
+		return pai;
 	}
 	
+	public No<E> getFesq() {
+		return fesq;
+	}
+	
+	public No<E> getFdir() {
+		return fdir;
+	}	
 	
 }
