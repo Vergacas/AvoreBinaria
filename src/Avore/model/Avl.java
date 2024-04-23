@@ -9,47 +9,95 @@ public class Avl<E extends Comparable<E>> {
 	private int N_nos;
 
 	/* Métodos */
-	public void insere_AVL(E dado, No<E> no, boolean h) {
-		if(no == null) {
-			no = new No<E>(dado);
-			h = true;
+
+	//Método para inserir um nó na AVL
+	public void inserir(E dado){
+		No<E> no = new No<E>(dado);
+		if(raiz == null) {
+			raiz = no;
 		} else {
-			if(dado == no.getDado()) {
-				return; //Nó duplicado
-			} else if(dado.compareTo(no.getDado()) < 0) {
-				insere_AVL(dado, no.getFesq(), h);
-
-				if(h) {
-					switch (no.getBal()){
-						case 1:
-							no.setBal(0);
-							h = false;
-							break;
-						case 0: 
-							no.setBal(-1);
-							break;
-						case -1:
-							caso1(no, h); 
-							break;
-					}
-				} else {
-					insere_AVL(dado, no.getFdir(), h);
-
-					switch (no.getBal()) {
-						case -1:
-							no.setBal(0);
-							h = false;
-							break;
-						case 0: 
-							no.setBal(1);
-							break;
-						case 1:
-							caso2(no, h); //A IMPLEMENTAR
-							break;
-					}
-				}
-			}
+			insere_AVL(no, raiz);
 		}
+
+	}
+
+	//Método auxiliar para inserção de um nó na AVL
+	public void insere_AVL(No<E> novoNo, No<E> no) {
+
+		switch (novoNo.getDado().compareTo(no.getDado())){
+			case -1:
+				if(no.getFesq() == null){
+					no.setFesq(novoNo);
+					novoNo.setPai(no);
+					//balancear(no); // A IMPLEMENTAR
+				}
+				else insere_AVL(novoNo, no.getFesq());
+				break;
+			case 0 : 
+				//Nó duplicado
+				break;
+			case 1:
+				if (no.getFdir() == null) {
+					no.setFdir(novoNo);
+					novoNo.setPai(no);
+					//balancear(no); // A IMPLEMENTAR
+				}
+				insere_AVL(novoNo, no.getFdir());
+				break;
+		}
+	}
+
+
+	//Método para calcular a altura de um nó na AVL
+	private int calcAltura(No<E> no){
+		//Caso esteja a baixo de uma folha
+		if(no == null) return -1;
+		//Caso não tenha filho a esquerda
+		else if(no.getFesq() == null){
+			//Caso não tenha filho a direita
+			if(no.getFdir() == null) return 0;
+			//Caso tenha filho a direita
+			else return 1 + calcAltura(no.getFdir());
+		} 
+		//Caso tenha filho a esquerda
+		else {
+			//Caso não tenha filho a direita
+			if(no.getFdir() == null) return 1 + calcAltura(no.getFesq());
+			//Caso tenha filho a direita
+			else return Math.max(calcAltura(no.getFesq()), calcAltura(no.getFdir()))
+		}
+	}
+
+	//Método para balancear a AVL
+	public void balancear(No<E> no){
+		int balanceamento = calcAltura(no.getFdir()) - calcAltura(no.getFesq()); 
+		
+		no.setBal(balanceamento);
+		
+		if(balanceamento == -2) {
+			//Filho esquerdo do nó
+			No<E> noEsq = no.getFesq();
+
+			//Calcula a altura dos filhos do nó esquerdo
+			int altFesq = calcAltura(noEsq.getFesq());
+			int altFdir = calcAltura(noEsq.getFdir());
+			
+			if(altFesq >= altFdir) rotacaoDireta(no);
+			else rotacaoDuplaEsquerdaDireita(no);
+		} else if(balanceamento == 2) {
+			//Filho direito do nó
+			No<E> noDir = no.getFdir();
+			
+			//Calcular a altura dos filhos do nó direito
+			int altFesq = calcAltura(noDir.getFesq());
+			int altFdir = calcAltura(noDir.getFdir());
+			
+			if(altFdir >= altFesq) rotacaoEsquerda(no);
+			else rotacaoDuplaDireitaEsquerda(no);
+		}
+
+		if(no.getPai() != null) balancear(no.getPai());
+		else raiz = no;
 	}
 
 	public void caso1(No<E> no, boolean h) {
