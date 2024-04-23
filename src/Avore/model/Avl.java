@@ -22,7 +22,7 @@ public class Avl<E extends Comparable<E>> {
 	}
 
 	//Método auxiliar para inserção de um nó na AVL
-	public void insere_AVL(No<E> novoNo, No<E> no) {
+	private void insere_AVL(No<E> novoNo, No<E> no) {
 
 		switch (novoNo.getDado().compareTo(no.getDado())){
 			case -1:
@@ -69,7 +69,7 @@ public class Avl<E extends Comparable<E>> {
 	}
 
 	//Método para balancear a AVL
-	public void balancear(No<E> no){
+	private void balancear(No<E> no){
 		int balanceamento = calcAltura(no.getFdir()) - calcAltura(no.getFesq()); 
 		
 		no.setBal(balanceamento);
@@ -82,8 +82,8 @@ public class Avl<E extends Comparable<E>> {
 			int altFesq = calcAltura(noEsq.getFesq());
 			int altFdir = calcAltura(noEsq.getFdir());
 			
-			if(altFesq >= altFdir) rotacaoDireta(no);
-			else rotacaoDuplaEsquerdaDireita(no);
+			if(altFesq >= altFdir) no = rotacaoDireta(no);
+			else no = rotacaoDuplaEsquerdaDireita(no);
 		} else if(balanceamento == 2) {
 			//Filho direito do nó
 			No<E> noDir = no.getFdir();
@@ -92,70 +92,76 @@ public class Avl<E extends Comparable<E>> {
 			int altFesq = calcAltura(noDir.getFesq());
 			int altFdir = calcAltura(noDir.getFdir());
 			
-			if(altFdir >= altFesq) rotacaoEsquerda(no);
-			else rotacaoDuplaDireitaEsquerda(no);
+			if(altFdir >= altFesq) no = rotacaoEsquerda(no);
+			else no = rotacaoDuplaDireitaEsquerda(no);
 		}
 
 		if(no.getPai() != null) balancear(no.getPai());
 		else raiz = no;
 	}
 
-	public void caso1(No<E> no, boolean h) {
+	private No<E> rotacaoDireta(No<E> no){
 		No<E> noEsq = no.getFesq();
-		
-		if(noEsq.getBal() == -1) {
-			no.setFesq(noEsq.getFdir());
-			noEsq.setFdir(no);
-			no.setBal(0);
-			no = noEsq;
-		} else {
-			No<E> noDir = noEsq.getFdir();
-			
-			noEsq.setFdir(noDir.getFesq());
-			noDir.setFesq(noEsq);
-			no.setFesq(noDir.getFdir());
-			noDir.setFdir(no);
-			
-			if(noDir.getBal() == -1) no.setBal(1);
-			else no.setBal(0);
 
-			if(noDir.getBal() == 1) noEsq.setBal(-1);
-			else noEsq.setBal(0);
+		noEsq.setPai(no.getPai());
 
-			no = noDir;
-		}	
-		
-		no.setBal(0);
-		h = false;
-	}
+		no.setFesq(noEsq.getFdir());
+		if(no.getFesq() != null) no.getFesq().setPai(no);
 
-	public void caso2(No<E> no, boolean h) {
-		No<E> noDir = no.getFdir();
+		noEsq.setFdir(no);
 
-		if(noDir.getBal() == 1 ) {
-			no.setFdir(noDir.getFesq());
-			noDir.setFesq(no);
-			no.setBal(0);
-			no = noDir;
-		} else {
-			No<E> noEsq = noDir.getFesq();
-			
-			noDir.setFesq(noEsq.getFdir());
-			noEsq.setFdir(noDir);
-			no.setFdir(noEsq.getFesq());
-			noEsq.setFesq(no);
+		no.setPai(noEsq);
 
-			if(noEsq.getBal() == 1) no.setBal(-1);
-			else no.setBal(0);
+		No<E> noPai = noEsq.getPai();
 
-			if(noEsq.getBal() == -1) noDir.setBal(1);
-			else noDir.setBal(0);
-
-			no = noEsq;
+		if(noPai != null){
+			if(noPai.getFdir() == no) noPai.setFdir(noEsq);
+			else noPai.setFesq(noEsq);
 		}
 
-		no.setBal(0);
-		h = false;
+		no.setBal(calcAltura(no.getFdir()) - calcAltura(no.getFesq()));
+		noEsq.setBal(calcAltura(noEsq.getFdir()) - calcAltura(noEsq.getFesq()));
+
+		return noEsq;
+	}
+
+	private No<E> rotacaoEsquerda(No<E> no){
+		No<E> noDir = no.getFdir();
+
+		noDir.setPai(no.getPai());
+
+		no.setFdir(noDir.getFesq());
+		if(no.getFdir() != null) no.getFdir().setPai(no);
+
+		noDir.setFesq(no);
+
+		no.setPai(noDir);
+
+		No<E> noPai = noDir.getPai();
+
+		if(noPai != null){
+			if(noPai.getFdir() == no) noPai.setFdir(noDir);
+			else noPai.setFesq(noDir);
+		}
+
+		no.setBal(calcAltura(no.getFdir()) - calcAltura(no.getFesq()));
+		noDir.setBal(calcAltura(noDir.getFdir()) - calcAltura(noDir.getFesq()));
+
+		return noDir;
+	}
+
+	private No<E> rotacaoDuplaEsquerdaDireita(No<E> no){
+		No<E> noEsq = rotacaoEsquerda(no.getFesq());
+		no.setFdir(noEsq);
+
+		return rotacaoDireta(no);
+	}
+
+	private No<E> rotacaoDuplaDireitaEsquerda(No<E> no){
+		No<E> noDir = rotacaoDireta(no.getFdir());
+		no.setFdir(noDir);
+
+		return rotacaoEsquerda(no);
 	}
 
 }
