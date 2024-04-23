@@ -29,7 +29,7 @@ public class Avl<E extends Comparable<E>> {
 				if(no.getFesq() == null){
 					no.setFesq(novoNo);
 					novoNo.setPai(no);
-					//balancear(no); // A IMPLEMENTAR
+					balancear(no); // A IMPLEMENTAR
 				}
 				else insere_AVL(novoNo, no.getFesq());
 				break;
@@ -40,7 +40,7 @@ public class Avl<E extends Comparable<E>> {
 				if (no.getFdir() == null) {
 					no.setFdir(novoNo);
 					novoNo.setPai(no);
-					//balancear(no); // A IMPLEMENTAR
+					balancear(no); // A IMPLEMENTAR
 				}
 				insere_AVL(novoNo, no.getFdir());
 				break;
@@ -64,7 +64,7 @@ public class Avl<E extends Comparable<E>> {
 			//Caso não tenha filho a direita
 			if(no.getFdir() == null) return 1 + calcAltura(no.getFesq());
 			//Caso tenha filho a direita
-			else return Math.max(calcAltura(no.getFesq()), calcAltura(no.getFdir()))
+			else return Math.max(calcAltura(no.getFesq()), calcAltura(no.getFdir()));
 		}
 	}
 
@@ -162,6 +162,20 @@ public class Avl<E extends Comparable<E>> {
 		no.setFdir(noDir);
 
 		return rotacaoEsquerda(no);
+	}
+
+	public void imprimir(){
+		No<E> no = raiz;
+
+		imprimirNos(no);
+	}
+
+	public void imprimirNos(No<E> no){
+		if(no.getPai() != null) System.out.println("Nó: " + no.getDado() + " - Pai: " + no.getPai().getDado());
+		else System.out.println("Nó: " + no.getDado());
+
+		if(no.getFesq() != null) imprimirNos(no.getFesq());
+		if(no.getFdir() != null) imprimirNos(no.getFdir());
 	}
 
 }
