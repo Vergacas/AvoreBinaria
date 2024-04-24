@@ -1,19 +1,22 @@
-package Animal;
-
-import java.util.*;
+package principal.model;
 
 public class Animal {
     /* Atributos */
-    char sexo; //'F' ou 'M'
-    Integer id;
-    String apelido;
-    String especie;
-    String dataNascimento; //Se for conhecida
-    List<Monitoramento> historico;
-    String dataInicioMonitoramento;
+	private Integer id;
+    private char sexo; //'F' ou 'M'
+    private String apelido;
+    private String especie;
+    private String dataNascimento; //Se for conhecida
+    private String dataInicioMonitoramento;
 
     /* Construtores */
-    public Animal() { /* Empty */}
+    public Animal() {
+    	this.id = null;
+    	this.sexo = ' ';
+    	this.apelido = null;
+    	this.especie = null;
+    	this.dataNascimento = null;
+    }
 
     public Animal(Integer id, char sexo, String apelido, String especie,
      String dataNascimento, String dataMonitoramento){
@@ -41,10 +44,6 @@ public class Animal {
     public void setEspecie(String especie) {
         this.especie = especie;
     }
-   
-    public void setMonitoramentos(List<Monitoramento> historico) {
-        this.historico = historico;
-    }
 
     public void setDataNascimento(String dataNascimento) {
         this.dataNascimento = dataNascimento;
@@ -58,6 +57,10 @@ public class Animal {
     /* Métodos Get */
     public Integer getId() {
         return id;
+    }
+    
+    public char getSexo() {
+    	return this.sexo;
     }
 
     public String getApelido() {
@@ -76,21 +79,4 @@ public class Animal {
         return dataInicioMonitoramento;
     }
 
-    public List<Monitoramento> getMonitoramentos() {
-        return historico;
-    }
-
-    /* Outros métodos */
-    public void addMonitoramento(Monitoramento monitoramento) {
-        if(historico == null){
-            historico = new ArrayList<Monitoramento>();
-        }
-        
-        historico.add(monitoramento);
-    }
-
-    public void imprimirHistorico(){
-        historico.forEach((historico) -> System.out.println(historico));
-    }
-    
 }

@@ -1,14 +1,17 @@
-package Animal;
+package principal.model;
 
 public class Monitoramento {
     /* Atributos */
-    Double peso;
-    Double altura;
-    String observacao; //Caso o exame físico não esteja ok
-    Double temperatura;
-    Boolean exameFisico; //Se foi realizado a coleta de sangue
-    Boolean coletaSangue; //Resultado do exame físico - Ok(true) ou Não(false)
-    String dataAvaliacao;
+	private Integer id_monitoramento;
+	private Integer id_animal;
+	
+    private Double peso;
+    private Double altura;
+    private String observacao; //Caso o exame físico não esteja ok
+    private Double temperatura;
+    private Boolean exameFisico; //Se foi realizado a coleta de sangue
+    private Boolean coletaSangue; //Resultado do exame físico - Ok(true) ou Não(false)
+    private String dataAvaliacao;
 
     /* Construtores */
     public Monitoramento(){ /* Empty */}
@@ -24,7 +27,54 @@ public class Monitoramento {
         this.dataAvaliacao = data;
     }
 
-    /* Métodos Set */
+    
+    
+   /* Métodos Get*/
+    public Integer getId_monitoramento() {
+		return id_monitoramento;
+	}
+
+	public Integer getId_animal() {
+		return id_animal;
+	}
+
+	public Double getPeso() {
+		return peso;
+	}
+
+	public Double getAltura() {
+		return altura;
+	}
+
+	public String getObservacao() {
+		return observacao;
+	}
+
+	public Double getTemperatura() {
+		return temperatura;
+	}
+
+	public Boolean getExameFisico() {
+		return exameFisico;
+	}
+
+	public Boolean getColetaSangue() {
+		return coletaSangue;
+	}
+
+	public String getDataAvaliacao() {
+		return dataAvaliacao;
+	}
+
+	/* Métodos Set */
+	public void setId_animal(Integer id_animal) {
+		this.id_animal = id_animal;
+	}
+	
+	public void setId_monitoramento(Integer id_monitoramento) {
+		this.id_monitoramento = id_monitoramento;
+	}
+	
     public void setPeso(Double peso) {
         this.peso = peso;
     }
