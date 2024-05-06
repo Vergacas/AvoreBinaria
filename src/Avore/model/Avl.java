@@ -5,46 +5,81 @@ package Avore.model;
 public class Avl<E extends Comparable<E>> {
 	/* Atributos */
 	private No<E> raiz;
-	private int altura;
-	private int N_nos;
+
+	/* Construtor */
+	public Avl(){
+		raiz = null;
+	}
 
 	/* Métodos */
 
-	//Método para inserir um nó na AVL
-	public void inserir(E dado){
-		No<E> no = new No<E>(dado);
-		if(raiz == null) {
-			raiz = no;
-		} else {
-			insere_AVL(no, raiz);
-		}
-
+	public void setRaiz(No<E> raiz) {
+		this.raiz = raiz;
 	}
 
-	//Método auxiliar para inserção de um nó na AVL
-	private void insere_AVL(No<E> novoNo, No<E> no) {
+	public No<E> getRaiz() {
+		return raiz;
+	}
 
-		switch (novoNo.getDado().compareTo(no.getDado())){
-			case -1:
-				if(no.getFesq() == null){
-					no.setFesq(novoNo);
-					novoNo.setPai(no);
-					balancear(no); // A IMPLEMENTAR
-				}
-				else insere_AVL(novoNo, no.getFesq());
-				break;
-			case 0 : 
-				//Nó duplicado
-				break;
-			case 1:
-				if (no.getFdir() == null) {
-					no.setFdir(novoNo);
-					novoNo.setPai(no);
-					balancear(no); // A IMPLEMENTAR
-				}
-				insere_AVL(novoNo, no.getFdir());
-				break;
+	//Método para inserção de um nó na AVL
+	public No<E> inserir(E dado, No<E> no, Boolean h) {
+		if (no == null) {
+			no = new No<E>(dado);
+			h = true;
+		} else {
+			switch (dado.compareTo(no.getDado())){
+				case -1:
+					no.setFesq(inserir(dado, no.getFesq(), h));
+					imprimir();
+					System.out.println(h);
+					if(h){
+						switch(no.getBal()){
+							case 0:
+								no.setBal(-1);
+								break;
+							case 1:
+								no.setBal(0);
+								h = false;
+								break;
+							case -1:
+								No<E> noEsq = no.getFesq();
+
+								h = false;
+
+								if(noEsq.getBal() == -1) return rotacaoDireta(no, noEsq);
+								else return rotacaoDuplaDireita(no, noEsq);
+						}
+					}
+					break;
+				case 0 : 
+					//Nó duplicado
+					break;
+				case 1:
+					no.setFdir(inserir(dado, no.getFdir(), h));
+					imprimir();
+					if(h){
+						switch(no.getBal()){
+							case 0:
+								no.setBal(1);
+								break;
+							case -1:
+								no.setBal(0);
+								h = false;
+								break;
+							case 1:
+								No<E> noDir = no.getFdir();
+
+								h = false;
+
+								if(noDir.getBal() == 1) return rotacaoEsquerda(no, noDir);
+								else return rotacaoDuplaEsquerda(no, noDir);
+						}
+					}
+					break;
+			}
 		}
+
+		return no;
 	}
 
 
@@ -64,60 +99,22 @@ public class Avl<E extends Comparable<E>> {
 			//Caso não tenha filho a direita
 			if(no.getFdir() == null) return 1 + calcAltura(no.getFesq());
 			//Caso tenha filho a direita
-			else return Math.max(calcAltura(no.getFesq()), calcAltura(no.getFdir()));
+			else { 
+				int hDir = calcAltura(no.getFdir());
+				int hEsq = calcAltura(no.getFesq());
+
+				if(hEsq >= hDir) return hEsq;
+				else return hDir;
+			}
 		}
 	}
 
-	//Método para balancear a AVL
-	private void balancear(No<E> no){
-		int balanceamento = calcAltura(no.getFdir()) - calcAltura(no.getFesq()); 
-		
-		no.setBal(balanceamento);
-		
-		if(balanceamento == -2) {
-			//Filho esquerdo do nó
-			No<E> noEsq = no.getFesq();
-
-			//Calcula a altura dos filhos do nó esquerdo
-			int altFesq = calcAltura(noEsq.getFesq());
-			int altFdir = calcAltura(noEsq.getFdir());
-			
-			if(altFesq >= altFdir) no = rotacaoDireta(no);
-			else no = rotacaoDuplaEsquerdaDireita(no);
-		} else if(balanceamento == 2) {
-			//Filho direito do nó
-			No<E> noDir = no.getFdir();
-			
-			//Calcular a altura dos filhos do nó direito
-			int altFesq = calcAltura(noDir.getFesq());
-			int altFdir = calcAltura(noDir.getFdir());
-			
-			if(altFdir >= altFesq) no = rotacaoEsquerda(no);
-			else no = rotacaoDuplaDireitaEsquerda(no);
-		}
-
-		if(no.getPai() != null) balancear(no.getPai());
-		else raiz = no;
-	}
-
-	private No<E> rotacaoDireta(No<E> no){
-		No<E> noEsq = no.getFesq();
-
-		noEsq.setPai(no.getPai());
+	private No<E> rotacaoDireta(No<E> no, No<E> noEsq){
+		System.out.println("Rotação direita aplicada nos " + no.getDado()+ " " + noEsq.getDado());
 
 		no.setFesq(noEsq.getFdir());
-		if(no.getFesq() != null) no.getFesq().setPai(no);
-
 		noEsq.setFdir(no);
-
-		no.setPai(noEsq);
-
-		No<E> noPai = noEsq.getPai();
-
-		if(noPai != null){
-			if(noPai.getFdir() == no) noPai.setFdir(noEsq);
-			else noPai.setFesq(noEsq);
-		}
+		
 
 		no.setBal(calcAltura(no.getFdir()) - calcAltura(no.getFesq()));
 		noEsq.setBal(calcAltura(noEsq.getFdir()) - calcAltura(noEsq.getFesq()));
@@ -125,24 +122,11 @@ public class Avl<E extends Comparable<E>> {
 		return noEsq;
 	}
 
-	private No<E> rotacaoEsquerda(No<E> no){
-		No<E> noDir = no.getFdir();
-
-		noDir.setPai(no.getPai());
+	private No<E> rotacaoEsquerda(No<E> no, No<E> noDir){
+		System.out.println("Rotação direita aplicada nos " + no.getDado()+ " " + noDir.getDado());
 
 		no.setFdir(noDir.getFesq());
-		if(no.getFdir() != null) no.getFdir().setPai(no);
-
 		noDir.setFesq(no);
-
-		no.setPai(noDir);
-
-		No<E> noPai = noDir.getPai();
-
-		if(noPai != null){
-			if(noPai.getFdir() == no) noPai.setFdir(noDir);
-			else noPai.setFesq(noDir);
-		}
 
 		no.setBal(calcAltura(no.getFdir()) - calcAltura(no.getFesq()));
 		noDir.setBal(calcAltura(noDir.getFdir()) - calcAltura(noDir.getFesq()));
@@ -150,31 +134,31 @@ public class Avl<E extends Comparable<E>> {
 		return noDir;
 	}
 
-	private No<E> rotacaoDuplaEsquerdaDireita(No<E> no){
-		No<E> noEsq = rotacaoEsquerda(no.getFesq());
-		no.setFdir(noEsq);
+	private No<E> rotacaoDuplaDireita(No<E> no, No<E> noEsq){
+		no.setFesq(rotacaoEsquerda(noEsq, noEsq.getFdir()));
 
-		return rotacaoDireta(no);
+		return rotacaoDireta(no, noEsq);
 	}
 
-	private No<E> rotacaoDuplaDireitaEsquerda(No<E> no){
-		No<E> noDir = rotacaoDireta(no.getFdir());
+	private No<E> rotacaoDuplaEsquerda(No<E> no, No<E> noDir){
+		noDir = rotacaoDireta(no, noDir);
 		no.setFdir(noDir);
 
-		return rotacaoEsquerda(no);
+		return rotacaoEsquerda(no, noDir);
 	}
 
 	public void imprimir(){
-		No<E> no = raiz;
-
-		imprimirNos(no);
+		if(raiz != null) imprimirNos(raiz);
 	}
 
 	public void imprimirNos(No<E> no){
-		if(no.getPai() != null) System.out.println("Nó: " + no.getDado() + " - Pai: " + no.getPai().getDado());
-		else System.out.println("Nó: " + no.getDado());
+		System.out.println("Nó: " + no.getDado());
+		System.out.println("Balanceamento: " + no.getBal());
+		System.out.println("Filho Esquerdo do nó " + no.getDado() + ": ");
 
 		if(no.getFesq() != null) imprimirNos(no.getFesq());
+
+		System.out.println("Filho Direito do nó " + no.getDado() + ": ");
 		if(no.getFdir() != null) imprimirNos(no.getFdir());
 	}
 
