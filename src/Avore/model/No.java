@@ -4,15 +4,13 @@ public class No<E extends Comparable<E>> {
 	/* Atributos */
 	private E dado;		//Valor do nó
 	private int bal;	//Balanceamento do nó
-	private No<E> pai;	//Nó pai
 	private No<E> fesq; //Nó filho esquerdo
 	private No<E> fdir;	//Nó filho direito
 	
 	/* Construtores */
 	public No() {
-		this.dado = null;
 		this.bal = 0;
-		this.pai = null;
+		this.dado = null;
 		this.fesq = null;
 		this.fdir = null;
 	}
@@ -31,10 +29,6 @@ public class No<E extends Comparable<E>> {
 		this.bal = bal;
 	}
 
-	public void setPai(No<E> pai) {
-		this.pai = pai;
-	}
-
 	public void setFesq(No<E> fesq) {
 		this.fesq = fesq;
 	}
@@ -51,10 +45,6 @@ public class No<E extends Comparable<E>> {
 
 	public int getBal() {
 		return  bal;
-	}
-
-	public No<E> getPai() {
-		return pai;
 	}
 	
 	public No<E> getFesq() {
