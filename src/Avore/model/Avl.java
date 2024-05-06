@@ -30,8 +30,6 @@ public class Avl<E extends Comparable<E>> {
 			switch (dado.compareTo(no.getDado())){
 				case -1:
 					no.setFesq(inserir(dado, no.getFesq(), h));
-					imprimir();
-					System.out.println(h);
 					if(h){
 						switch(no.getBal()){
 							case 0:
@@ -56,7 +54,6 @@ public class Avl<E extends Comparable<E>> {
 					break;
 				case 1:
 					no.setFdir(inserir(dado, no.getFdir(), h));
-					imprimir();
 					if(h){
 						switch(no.getBal()){
 							case 0:
