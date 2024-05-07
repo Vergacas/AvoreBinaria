@@ -32,7 +32,6 @@ public class Avl<E extends Comparable<E>> {
 			switch (dado.compareTo(no.getDado())){
 				case -1:
 					no.setFesq(inserir(dado, no.getFesq()));
-					System.out.println("No " + no.getDado() + " bal = " + no.getBal());
 					if(h){
 						switch(no.getBal()){
 							case 0:
@@ -57,8 +56,6 @@ public class Avl<E extends Comparable<E>> {
 					break;
 				case 1:
 					no.setFdir(inserir(dado, no.getFdir()));
-					System.out.println("Nó " + no.getDado() + " bal = " + no.getBal());
-
 					if(h){
 						switch(no.getBal()){
 							case 0:
@@ -81,7 +78,6 @@ public class Avl<E extends Comparable<E>> {
 			}
 		}
 
-		System.out.println("Retornando nó " + no.getDado());
 		return no;
 	}
 
@@ -113,9 +109,6 @@ public class Avl<E extends Comparable<E>> {
 	}
 
 	private No<E> rotacaoDireta(No<E> no, No<E> noEsq){
-		System.out.println("Rotação direita aplicada nos " + no.getDado()+ " " + noEsq.getDado());
-		imprimir();
-
 		no.setFesq(noEsq.getFdir());
 		noEsq.setFdir(no);
 		
@@ -127,8 +120,6 @@ public class Avl<E extends Comparable<E>> {
 	}
 
 	private No<E> rotacaoEsquerda(No<E> no, No<E> noDir){
-		System.out.println("Rotação esquerda aplicada nos " + no.getDado()+ " " + noDir.getDado());
-
 		no.setFdir(noDir.getFesq());
 		noDir.setFesq(no);
 
@@ -146,7 +137,7 @@ public class Avl<E extends Comparable<E>> {
 	}
 
 	private No<E> rotacaoDuplaEsquerda(No<E> no, No<E> noDir){
-		noDir = rotacaoDireta(no, noDir);
+		noDir = rotacaoDireta(noDir, noDir.getFesq());
 		no.setFdir(noDir);
 
 		return rotacaoEsquerda(no, noDir);
@@ -155,7 +146,6 @@ public class Avl<E extends Comparable<E>> {
 	public void imprimir(){
 		if(raiz != null) {
 			System.out.println("Raiz: " + raiz.getDado());
-			System.out.println("Bal: " + raiz.getBal());
 			imprimirNos(raiz);
 		}
 	}
@@ -166,12 +156,10 @@ public class Avl<E extends Comparable<E>> {
 
 		if(no.getFesq() != null) {
 			System.out.println("Filho esquerdo do nó " + no.getDado() + ": " + noEsq.getDado());
-			System.out.println("Bal: " + noEsq.getBal());
 			imprimirNos(noEsq);
 		}
 		if(no.getFdir() != null) {
 			System.out.println("Filho direito do nó " + no.getDado() + ": " + noDir.getDado());
-			System.out.println("Bal: " + noDir.getBal());
 			imprimirNos(noDir);
 		}
 	}
