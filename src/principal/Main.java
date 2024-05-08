@@ -31,16 +31,20 @@ public class Main {
                 case 1: animais.addAnimal(Cadastro(scanner));
                         fileSalved = false;
                         break;
-                case 2: animais.listar();
-                        animais.remover(Remocao(scanner));
-                        fileSalved = false;
+                case 2: if(animais.listar()) System.out.println("Nenhum animal cadastrado!");
+                        else{
+                            animais.remover(Remocao(scanner));
+                            fileSalved = false;
+                        }
                         break;
-                case 3: animais.listar();
-                        animais.consultar(Consulta(scanner));
+                case 3: if(animais.listar()) System.out.println("Nenhum animal cadastrado!");
+                        else animais.consultar(Consulta(scanner));
                         break;
-                case 4: animais.listar();
-                        animais.cadastrar(Registro(scanner));
-                        fileSalved = false;
+                case 4: if(animais.listar()) System.out.println("Nenhum animal cadastrado!");
+                        else{
+                            animais.cadastrar(Registro(scanner));
+                            fileSalved = false;
+                        }                        
                         break;
                 case 5: animais.salvarAnimais();
                         fileSalved = true;
@@ -56,7 +60,6 @@ public class Main {
         }
 
         scanner.close();
-        
         
     }
 
@@ -102,7 +105,7 @@ public class Main {
         System.out.println("Informe o sexo do animal:(F/M) ");
         while(true){
             sexo = input.next().charAt(0);
-            System.out.println("Sexo: " + sexo);
+            
             if(sexo != 'F' && sexo != 'M'){
                 System.out.println("Sexo inválido. Digite novamente 'F' para Fêmea ou 'M' para Macho.");
             } else {
@@ -162,7 +165,7 @@ public class Main {
         double peso, altura, temperatura;
         boolean coletaSangue, exameFisico;
 
-        System.out.println("Informe o id do animal que deseja consultar: ");
+        System.out.println("Informe o id do animal que deseja registrar o monitoramento: ");
 
         while(true){
             try{
@@ -181,17 +184,18 @@ public class Main {
                 break;
             } catch (Exception e ) {
                 System.out.println("O peso informado é inválido!");
+                input.next();
             }
         }
-        input.next();
         
-        System.out.println("Informe a altura do animal");
+        System.out.println("Informe a altura do animal: ");
         while(true){
             try{
                 altura = input.nextDouble();
                 break;
             } catch (Exception e) {
                 System.out.println("A altura informada é inválida!");
+                input.next();
             }
         }
 
@@ -202,6 +206,7 @@ public class Main {
                 break;
             } catch (Exception e) {
                 System.out.println("A temperatura informada é inválida!");
+                input.next();
             }
         }
 
@@ -252,7 +257,7 @@ public class Main {
         if(!fileSalved) {
             System.out.println("Você ainda não salvou os dados!");
             System.out.println("Deseja salvar os dados? (S/N)");
-            input.next();
+    
             char answer = input.next().charAt(0);
 
             if (answer == 'S' || answer == 's') {

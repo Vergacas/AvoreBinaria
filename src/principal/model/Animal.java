@@ -1,5 +1,8 @@
 package principal.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Animal implements Comparable<Animal> {
     /* Atributos */
 	private Integer id;
@@ -8,6 +11,7 @@ public class Animal implements Comparable<Animal> {
     private String especie;
     private String dataNascimento; //Se for conhecida
     private String dataInicioMonitoramento;
+    private List<Monitoramento> historico;
 
     /* Construtores */
     public Animal() {
@@ -16,6 +20,7 @@ public class Animal implements Comparable<Animal> {
     	this.apelido = null;
     	this.especie = null;
     	this.dataNascimento = null;
+        this.historico = new ArrayList<Monitoramento>();
     }
 
     public Animal(int id, char sexo, String apelido, String especie,
@@ -26,6 +31,7 @@ public class Animal implements Comparable<Animal> {
         this.especie = especie;
         this.dataNascimento = dataNascimento;
         this.dataInicioMonitoramento = dataMonitoramento;
+        this.historico = new ArrayList<Monitoramento>();
     }
 
     /* Métodos Set */
@@ -79,10 +85,18 @@ public class Animal implements Comparable<Animal> {
         return dataInicioMonitoramento;
     }
 
+    public List<Monitoramento> getHistorico() {
+        return historico;
+    }
+
     /* Outros métodos */
     @Override
     public int compareTo(Animal a2) {
         return this.id.compareTo(a2.id);
+    }
+
+    public void addMonitoramento(Monitoramento monitoramento){
+        this.historico.add(monitoramento);
     }
 
 }

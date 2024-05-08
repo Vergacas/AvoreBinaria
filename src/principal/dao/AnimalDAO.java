@@ -51,7 +51,13 @@ public class AnimalDAO {
 			for(Animal animal : animais) {
 				output = String.valueOf(animal.getId()) + ";" + animal.getApelido()
 				+ ";" + animal.getEspecie() + ";" + animal.getDataNascimento() + ";"
-				+ animal.getSexo() + ";" + animal.getDataInicioMonitoramento() + "\n";
+				+ animal.getSexo() + ";" + animal.getDataInicioMonitoramento();
+
+				for(Monitoramento monitoramento : animal.getHistorico()){
+					output += monitoramento;
+				}
+
+				output += "\n";
 				
 				escritor.write(output);
 				System.out.println("Animal salvo com sucesso!");
@@ -91,19 +97,21 @@ public class AnimalDAO {
 		}
 	}
 
-	public void listar(){
+	public boolean listar(){
 		System.out.println("Animais cadastrados: ");
 		for(int i=0; i<animais.size(); ++i){
 			Animal animal = animais.get(i);
 
 			System.out.println(" - - - - - - - - - - - - - - - - - - ");
+			
 			System.out.println("ID: " + animal.getId());
 			System.out.println("Apelido: " + animal.getApelido());
 			System.out.println("Especie: " + animal.getEspecie());
 			System.out.println("Data Nascimento: " + animal.getDataNascimento());
+			System.out.println("Data de início de monitoramento: " + animal.getDataInicioMonitoramento());
 			System.out.println(" - - - - - - - - - - - - - - - - - - ");
-
 		}
+		return animais.isEmpty();
 	}
 
 	public void consultar(int id){
@@ -114,9 +122,16 @@ public class AnimalDAO {
 		System.out.println("Especie: " + animal.getEspecie());
 		System.out.println("Data de Nascimento: " + animal.getDataNascimento());
 		System.out.println("Data de início de Monitoramento: " + animal.getDataInicioMonitoramento());
+		System.out.println("Histórico de monitoramento: ");
+
+		if(animal.getHistorico().isEmpty()) System.out.println("Vazio.");
+		else for(Monitoramento monitoramento : animal.getHistorico()) System.out.println(monitoramento);
+			
 	}
 
 	public void cadastrar(Monitoramento monitoramento){
 		Animal animal = getAnimal(monitoramento.getId_animal());
+
+		animal.addMonitoramento(monitoramento);
 	}
 }
