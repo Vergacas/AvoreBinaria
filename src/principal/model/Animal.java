@@ -1,6 +1,6 @@
 package principal.model;
 
-public class Animal {
+public class Animal implements Comparable<Animal> {
     /* Atributos */
 	private Integer id;
     private char sexo; //'F' ou 'M'
@@ -18,7 +18,7 @@ public class Animal {
     	this.dataNascimento = null;
     }
 
-    public Animal(Integer id, char sexo, String apelido, String especie,
+    public Animal(int id, char sexo, String apelido, String especie,
      String dataNascimento, String dataMonitoramento){
         this.id = id;
         this.sexo = sexo;
@@ -77,6 +77,12 @@ public class Animal {
 
     public String getDataInicioMonitoramento() {
         return dataInicioMonitoramento;
+    }
+
+    /* Outros métodos */
+    @Override
+    public int compareTo(Animal a2) {
+        return this.id.compareTo(a2.id);
     }
 
 }
