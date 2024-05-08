@@ -1,6 +1,7 @@
 package principal.dao;
 
 import principal.model.Animal;
+import principal.model.Monitoramento;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -27,12 +28,8 @@ public class AnimalDAO {
 		animais.add(a);
 	}
 	
-	public void remover(Integer a) {
-		for(Animal animal : animais) {
-			if(animal.getId().equals(a)) {
-				animais.remove(animal);
-			}
-		}
+	public void remover(int id) {
+		animais.remove(getAnimal(id));
 	}
 
 	public Animal getAnimal(int id){
@@ -92,5 +89,34 @@ public class AnimalDAO {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
+	}
+
+	public void listar(){
+		System.out.println("Animais cadastrados: ");
+		for(int i=0; i<animais.size(); ++i){
+			Animal animal = animais.get(i);
+
+			System.out.println(" - - - - - - - - - - - - - - - - - - ");
+			System.out.println("ID: " + animal.getId());
+			System.out.println("Apelido: " + animal.getApelido());
+			System.out.println("Especie: " + animal.getEspecie());
+			System.out.println("Data Nascimento: " + animal.getDataNascimento());
+			System.out.println(" - - - - - - - - - - - - - - - - - - ");
+
+		}
+	}
+
+	public void consultar(int id){
+		Animal animal = getAnimal(id);
+
+		System.out.println("ID: " + animal.getId());
+		System.out.println("Apelido: " + animal.getApelido());
+		System.out.println("Especie: " + animal.getEspecie());
+		System.out.println("Data de Nascimento: " + animal.getDataNascimento());
+		System.out.println("Data de início de Monitoramento: " + animal.getDataInicioMonitoramento());
+	}
+
+	public void cadastrar(Monitoramento monitoramento){
+		Animal animal = getAnimal(monitoramento.getId_animal());
 	}
 }
