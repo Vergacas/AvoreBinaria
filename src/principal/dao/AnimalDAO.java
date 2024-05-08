@@ -8,9 +8,17 @@ import java.util.ArrayList;
 
 public class AnimalDAO {
 	private ArrayList<Animal> animais;
-	
+	private static AnimalDAO bdAnimais;
+
 	public AnimalDAO() {
 		animais = new ArrayList<>();
+	}
+
+	public static AnimalDAO getIstance(){
+		if(bdAnimais == null) {
+			bdAnimais = new AnimalDAO();
+		}
+		return bdAnimais;
 	}
 	
 	public void addAnimal(Animal a) {
@@ -25,19 +33,28 @@ public class AnimalDAO {
 		}
 	}
 	
-	public void salvarAnimais() throws IOException {
-		String caminho = "salvos/animais.txt";
+	public void salvarAnimais(){
+
+		try {
+			String caminho = "salvos/animais.txt";
 		
-		FileWriter escritor = new FileWriter(caminho);
-		String output = "";
-		for(Animal animal : animais) {
-			output = String.valueOf(animal.getId()) + ";" + animal.getApelido()
-			+ ";" + animal.getEspecie() + ";" + animal.getDataNascimento() + ";"
-			+ animal.getSexo() + ";" + animal.getDataInicioMonitoramento() + "\n";
-			
-			escritor.write(output);
+			FileWriter escritor = new FileWriter(caminho);
+			String output = "";
+			for(Animal animal : animais) {
+				output = String.valueOf(animal.getId()) + ";" + animal.getApelido()
+				+ ";" + animal.getEspecie() + ";" + animal.getDataNascimento() + ";"
+				+ animal.getSexo() + ";" + animal.getDataInicioMonitoramento() + "\n";
+				
+				escritor.write(output);
+				System.out.println("Animal salvo com sucesso!");
+			}
+			escritor.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("ERRO!");
 		}
-		escritor.close();
+
+		
 	}
 	
 	public void recuperarAnimais() {
