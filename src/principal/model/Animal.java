@@ -59,6 +59,10 @@ public class Animal implements Comparable<Animal> {
         this.dataInicioMonitoramento = dataInicioMonitoramento;
     }
 
+    public void setHistorico(List<Monitoramento> historico) {
+        this.historico = historico;
+    }
+
 
     /* Métodos Get */
     public Integer getId() {

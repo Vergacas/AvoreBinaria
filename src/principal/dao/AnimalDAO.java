@@ -51,10 +51,16 @@ public class AnimalDAO {
 			for(Animal animal : animais) {
 				output = String.valueOf(animal.getId()) + ";" + animal.getApelido()
 				+ ";" + animal.getEspecie() + ";" + animal.getDataNascimento() + ";"
-				+ animal.getSexo() + ";" + animal.getDataInicioMonitoramento();
+				+ animal.getSexo() + ";" + animal.getDataInicioMonitoramento() + ";"
+				+ animal.getHistorico().size() + ";";
 
 				for(Monitoramento monitoramento : animal.getHistorico()){
-					output += monitoramento;
+					String aux;
+					aux = monitoramento.getPeso() + ";" + monitoramento.getAltura()
+					+ ";" + monitoramento.getTemperatura() + ";" + monitoramento.getColetaSangue()
+					+ ";" + monitoramento.getExameFisico() + ";" + monitoramento.getObservacao() + ";";
+					
+					output += aux;
 				}
 
 				output += "\n";
@@ -78,16 +84,33 @@ public class AnimalDAO {
 			Scanner scan = new Scanner(file);
 			Animal a = new Animal();
 			while (scan.hasNextLine()) {
+				int i = 0;
 				String[] dadosAnimal;
 				String recuperar = scan.nextLine();
 				dadosAnimal = recuperar.split(";");
-				a.setId(Integer.valueOf(dadosAnimal[0]));
-				a.setApelido(dadosAnimal[1]);
-				a.setEspecie(dadosAnimal[2]);
-				a.setDataNascimento(dadosAnimal[3]);
-				char sexo = dadosAnimal[4].charAt(0);
+				a.setId(Integer.valueOf(dadosAnimal[i++]));
+				a.setApelido(dadosAnimal[i++]);
+				a.setEspecie(dadosAnimal[i++]);
+				a.setDataNascimento(dadosAnimal[i++]);
+				char sexo = dadosAnimal[i++].charAt(0);
 				a.setSexo(sexo);
-				a.setDataInicioMonitoramento(dadosAnimal[5]);
+				a.setDataInicioMonitoramento(dadosAnimal[i++]);
+				a.setHistorico(new ArrayList<Monitoramento>());
+				
+				for(int j=0; i<Integer.valueOf(dadosAnimal[i++]); ++j){
+					Monitoramento monitoramento = new Monitoramento();
+
+					monitoramento.setId_animal(a.getId());
+					monitoramento.setPeso(Double.valueOf(dadosAnimal[i++]));
+					monitoramento.setAltura(Double.valueOf(dadosAnimal[i++]));
+					monitoramento.setTemperatura(Double.valueOf(dadosAnimal[i++]));
+					monitoramento.setColetaSangue(Boolean.valueOf(dadosAnimal[i++]));
+					monitoramento.setExameFisico(Boolean.valueOf(dadosAnimal[i++]));
+					monitoramento.setObservacao(dadosAnimal[i++]);
+
+					a.addMonitoramento(monitoramento);
+				}
+
 				animais.add(a);
 			}
 			scan.close();
@@ -125,7 +148,11 @@ public class AnimalDAO {
 		System.out.println("Histórico de monitoramento: ");
 
 		if(animal.getHistorico().isEmpty()) System.out.println("Vazio.");
-		else for(Monitoramento monitoramento : animal.getHistorico()) System.out.println(monitoramento);
+		else for(Monitoramento monitoramento : animal.getHistorico()) {
+			System.out.println("- - - - - - - - - - - - - - - - - - - - - -");
+			System.out.println(monitoramento);
+			System.out.println("- - - - - - - - - - - - - - - - - - - - - -");
+		}
 			
 	}
 

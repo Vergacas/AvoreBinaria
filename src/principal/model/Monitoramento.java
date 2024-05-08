@@ -107,9 +107,9 @@ public class Monitoramento {
     /* Outros métodos */
     @Override
     public String toString(){
-        return "Peso: " + this.peso + " Altura: " + this.altura + " Temperatura: " + 
-            this.temperatura + " Exame Físico: " + this.exameFisico + " Coleta de Sangue: " + 
-            this.coletaSangue + " Observação: " + this.observacao + " Data: " + this.dataAvaliacao;
+        return " Peso: " + this.peso + "\n Altura: " + this.altura + "\n Temperatura: " + 
+            this.temperatura + "\n Exame Físico: " + this.exameFisico + "\n Coleta de Sangue: " + 
+            this.coletaSangue + "\n Observação: " + this.observacao + "\n Data: " + this.dataAvaliacao;
     }
 
     
