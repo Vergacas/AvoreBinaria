@@ -59,7 +59,8 @@ public class MonitoramentoDAO {
 				output = monitoramento.getId_monitoramento() + ";" + monitoramento.getId_animal()
 					+ ";" + monitoramento.getPeso() + ";" + monitoramento.getAltura()
 					+ ";" + monitoramento.getTemperatura() + ";" + monitoramento.getColetaSangue()
-					+ ";" + monitoramento.getExameFisico() + ";" + monitoramento.getObservacao() + "\n";
+					+ ";" + monitoramento.getExameFisico() + ";" + monitoramento.getObservacao() 
+					+ ";" + monitoramento.getDataAvaliacao() + "\n";
 				
 				escritor.write(output);
 				System.out.println("Monitoramento salvo com sucesso!");
@@ -78,8 +79,8 @@ public class MonitoramentoDAO {
 
 			File file = new File("salvos/monitoramentos.txt");
 			Scanner scan = new Scanner(file);
-			Monitoramento a = new Monitoramento();
 			while (scan.hasNextLine()) {
+				Monitoramento a = new Monitoramento();
 				int i = 0;
 				String[] dadosMonitoramento;
 				String recuperar = scan.nextLine();
@@ -92,6 +93,7 @@ public class MonitoramentoDAO {
 				a.setColetaSangue(Boolean.valueOf(dadosMonitoramento[i++]));
 				a.setExameFisico(Boolean.valueOf(dadosMonitoramento[i++]));
 				a.setObservacao(dadosMonitoramento[i++]);
+				a.setDataAvaliacao(dadosMonitoramento[i++]);
 
 				monitoramentos.inserir(a);
 			}
@@ -104,9 +106,15 @@ public class MonitoramentoDAO {
 
 	public void consultar(int id){
 		Iterator<No<Monitoramento>> itr = monitoramentos.iterator();
+		if(monitoramentos.isEmpty()) {
+			System.out.println("Não há monitoramentos cadastrados");
+			return;
+		}
+
 		while(itr.hasNext()){
 			Monitoramento monitoramento = itr.next().getDado();
 			if(monitoramento.getId_animal() == id){
+				System.out.println(" - - - - - - - - - - - - - - - - - - - - ");
 				System.out.println("Data: " + monitoramento.getDataAvaliacao());
 				System.out.println("Peso: " + monitoramento.getPeso());
 				System.out.println("Altura: " + monitoramento.getAltura());
@@ -116,6 +124,7 @@ public class MonitoramentoDAO {
 				if(monitoramento.getExameFisico()) System.out.println("Exame físico: Sim");
 				else System.out.println("Exame físico: Não");
 				System.out.println("Observações: " + monitoramento.getObservacao());
+				System.out.println(" - - - - - - - - - - - - - - - - - - - - ");
 	
 			}
 		}
