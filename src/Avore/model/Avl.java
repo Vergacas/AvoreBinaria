@@ -164,4 +164,70 @@ public class Avl<E extends Comparable<E>> {
 		}
 	}
 
+	
+	/* Remove o no e retorna a sub-avore desse no sem ele*/
+	private No<E> removerRaiz(No<E> NoRemovivel){
+		No<E> saida = null;
+		/*Se so tem 1 elemento */
+		if (NoRemovivel.getFdir() == null && NoRemovivel.getFesq() == null) {	
+			return saida;
+		}
+
+		/* Se tem 2 ou 3 elementos*/
+		if (NoRemovivel.getFdir() == null || NoRemovivel.getFesq() == null) {
+			
+			if (NoRemovivel.getFdir() == null ) {
+				saida = NoRemovivel.getFesq();
+			}else if (NoRemovivel.getFesq() == null) {
+				saida = NoRemovivel.getFdir();
+			}else{
+				saida = NoRemovivel.getFdir();
+			}
+			return saida;
+
+		}
+
+		/* Avore com mais de 3 elemetos */
+
+		return saida;
+	}
+
+	public E remover(E dado){
+		E saida = null;
+		boolean auxiliar = true;
+		No<E> noAuxiliar = raiz;
+		No<E> noAnterior = null;
+		
+		/* Loop para procurar o no q deve ser removido */
+		while (auxiliar) {
+			switch (dado.compareTo(noAuxiliar.getDado())) {
+				case -1:
+					noAnterior = noAuxiliar;
+					noAuxiliar = noAnterior.getFesq();
+					break;
+				case 0:
+					
+					saida = noAuxiliar.getDado();
+					noAuxiliar = removerRaiz(noAuxiliar);
+					if (noAnterior == null) {
+						setRaiz(noAuxiliar);
+					}else{
+						if (noAuxiliar.getDado().compareTo(noAnterior.getDado()) == -1) {
+							noAnterior.setFesq(noAuxiliar);
+						}else{
+							noAnterior.setFdir(noAuxiliar);
+						}
+					}
+					break;
+				case 1:
+					break;
+				default:
+					noAnterior = noAuxiliar;
+					noAuxiliar = noAnterior.getFesq();
+					break;
+			}
+		}
+		return saida;
+	}
+
 }
