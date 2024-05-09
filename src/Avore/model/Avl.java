@@ -1,8 +1,11 @@
 package Avore.model;
 
+import java.util.Iterator;
+import java.util.Stack;
+
 //import Avore.model.No;
 
-public class Avl<E extends Comparable<E>> {
+public class Avl<E extends Comparable<E>> implements Iterable<No<E>> {
 	/* Atributos */
 	private No<E> raiz;
 	private boolean h;
@@ -230,4 +233,55 @@ public class Avl<E extends Comparable<E>> {
 		return saida;
 	}
 
+	public No<E> buscar(No<E> busca , No<E> no){
+		if(no != null) {
+			switch(no.getDado().compareTo(busca.getDado())){
+				case 0: return no;
+				case -1: return buscar(busca, no.getFesq());
+				case 1: return buscar(busca, no.getFdir());
+			}
+		}
+
+		return null;
+	}
+
+	public boolean isEmpty(){
+		if(raiz == null) return true;
+		return false;
+	}
+
+	/* Iterador */
+
+	 // Implementação do iterador para a travessia em ordem
+    private class InOrderIterator implements Iterator<No<E>> {
+        Stack<No<E>> fila;
+
+        InOrderIterator(No<E> no) {
+            fila = new Stack<>();
+            pushLeft(no);
+        }
+
+        @Override
+        public boolean hasNext() {
+            return !fila.isEmpty();
+        }
+
+        @Override
+        public No<E> next() {
+            No<E> atual = fila.pop();
+            pushLeft(atual.getFdir());
+            return atual;
+        }
+
+        private void pushLeft(No<E> no) {
+            while (no != null) {
+                fila.push(no);
+                no = no.getFesq();
+            }
+        }
+    }
+	@Override
+	public Iterator<No<E>> iterator() {
+		return new InOrderIterator(raiz);
+	}
 }
