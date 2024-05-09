@@ -1,6 +1,6 @@
 package principal.model;
 
-public class Monitoramento {
+public class Monitoramento implements Comparable<Monitoramento>{
     /* Atributos */
 	private Integer id_monitoramento;
 	private Integer id_animal;
@@ -113,5 +113,8 @@ public class Monitoramento {
             this.coletaSangue + "\n Observação: " + this.observacao + "\n Data: " + this.dataAvaliacao;
     }
 
-    
+    @Override
+    public int compareTo(Monitoramento m){
+        return id_monitoramento.compareTo(m.id_monitoramento);
+    }
 }
