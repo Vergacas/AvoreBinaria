@@ -51,19 +51,7 @@ public class AnimalDAO {
 			for(Animal animal : animais) {
 				output = String.valueOf(animal.getId()) + ";" + animal.getApelido()
 				+ ";" + animal.getEspecie() + ";" + animal.getDataNascimento() + ";"
-				+ animal.getSexo() + ";" + animal.getDataInicioMonitoramento() + ";"
-				+ animal.getHistorico().size() + ";";
-
-				for(Monitoramento monitoramento : animal.getHistorico()){
-					String aux;
-					aux = monitoramento.getPeso() + ";" + monitoramento.getAltura()
-					+ ";" + monitoramento.getTemperatura() + ";" + monitoramento.getColetaSangue()
-					+ ";" + monitoramento.getExameFisico() + ";" + monitoramento.getObservacao() + ";";
-					
-					output += aux;
-				}
-
-				output += "\n";
+				+ animal.getSexo() + ";" + animal.getDataInicioMonitoramento() + "\n";
 				
 				escritor.write(output);
 				System.out.println("Animal salvo com sucesso!");
@@ -97,20 +85,6 @@ public class AnimalDAO {
 				a.setDataInicioMonitoramento(dadosAnimal[i++]);
 				a.setHistorico(new ArrayList<Monitoramento>());
 				
-				for(int j=0; i<Integer.valueOf(dadosAnimal[i++]); ++j){
-					Monitoramento monitoramento = new Monitoramento();
-
-					monitoramento.setId_animal(a.getId());
-					monitoramento.setPeso(Double.valueOf(dadosAnimal[i++]));
-					monitoramento.setAltura(Double.valueOf(dadosAnimal[i++]));
-					monitoramento.setTemperatura(Double.valueOf(dadosAnimal[i++]));
-					monitoramento.setColetaSangue(Boolean.valueOf(dadosAnimal[i++]));
-					monitoramento.setExameFisico(Boolean.valueOf(dadosAnimal[i++]));
-					monitoramento.setObservacao(dadosAnimal[i++]);
-
-					a.addMonitoramento(monitoramento);
-				}
-
 				animais.add(a);
 			}
 			scan.close();
