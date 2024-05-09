@@ -1,6 +1,7 @@
 package principal;
 
 import principal.dao.AnimalDAO;
+import principal.dao.MonitoramentoDAO;
 import principal.model.Animal;
 import principal.model.Monitoramento;
 
@@ -11,10 +12,10 @@ public class Main {
     public static void main(String[] args) throws IOException {
         int option = 0;
         AnimalDAO animais = new AnimalDAO();
+        MonitoramentoDAO monitoramentos = new MonitoramentoDAO();
         boolean fileSalved = false;
         Scanner scanner = new Scanner(System.in);
 
-        animais.salvarAnimais();
 
         while(option != 6){
             Menu();
@@ -42,15 +43,21 @@ public class Main {
                         break;
                 case 4: if(animais.listar()) System.out.println("Nenhum animal cadastrado!");
                         else{
-                            animais.cadastrar(Registro(scanner));
+                            Monitoramento monitoramento = Registro(scanner, monitoramentos.size());
+                            animais.cadastrar(monitoramento);
+                            monitoramentos.addMonitoramento(monitoramento);
                             fileSalved = false;
                         }                        
                         break;
                 case 5: animais.salvarAnimais();
+                        monitoramentos.salvarMonitoramentos();
                         fileSalved = true;
                         break;
                 case 6: if(Sair(fileSalved, scanner)){
                             animais.salvarAnimais();
+                            monitoramentos.salvarMonitoramentos();
+                            System.out.println("Sistema encerrado com sucesso!");
+                            System.exit(0);
                         }
                         break;
                 default:System.out.println("Opção inválida");
@@ -158,9 +165,9 @@ public class Main {
         return id;
     }
 
-    public static Monitoramento Registro(Scanner input){
+    public static Monitoramento Registro(Scanner input, int id){
         char aux;
-        int id = -1;
+        int idAnimal = -1, idMonit = id;
         String observacao, data;
         double peso, altura, temperatura;
         boolean coletaSangue, exameFisico;
@@ -169,7 +176,7 @@ public class Main {
 
         while(true){
             try{
-                id = input.nextInt();
+                idAnimal = input.nextInt();
                 break;
             } catch (Exception e ) {
                 System.out.println("O id informado é inválido!");
@@ -248,9 +255,9 @@ public class Main {
         }
 
         System.out.println("Informe a data de realização do monitoramento(dd-MM-AAAA): ");
-        data = input.nextLine();
+        data = input.next();
 
-        return new Monitoramento(id, peso, altura, temperatura, coletaSangue, exameFisico, observacao, data);
+        return new Monitoramento(idMonit, idAnimal, peso, altura, temperatura, coletaSangue, exameFisico, observacao, data);
     }
 
     public static boolean Sair(boolean fileSalved, Scanner input){

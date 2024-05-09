@@ -16,8 +16,9 @@ public class Monitoramento {
     /* Construtores */
     public Monitoramento(){ /* Empty */}
     
-    public Monitoramento(int IDAnimal, Double peso, Double altura, Double temp, 
+    public Monitoramento(int IDMonit, int IDAnimal, Double peso, Double altura, Double temp, 
     Boolean coletaSangue, Boolean exameFisico, String obs, String data){
+        this.id_monitoramento = IDMonit;
         this.id_animal = IDAnimal;
         this.peso = peso;
         this.altura = altura;
