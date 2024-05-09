@@ -3,7 +3,6 @@ import principal.model.Monitoramento;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Iterator;
 
@@ -67,7 +66,6 @@ public class MonitoramentoDAO {
 			}
 			escritor.close();
 		} catch (Exception e) {
-			// TODO: handle exception
 			System.out.println("ERRO!");
 		}
 
@@ -99,7 +97,6 @@ public class MonitoramentoDAO {
 			}
 			scan.close();
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 	}

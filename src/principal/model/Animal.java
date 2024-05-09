@@ -83,7 +83,7 @@ public class Animal implements Comparable<Animal> {
     /* Outros métodos */
     @Override
     public int compareTo(Animal a2) {
-        return this.id.compareTo(a2.id);
+        return this.id.compareTo(a2.getId());
     }
 
 }

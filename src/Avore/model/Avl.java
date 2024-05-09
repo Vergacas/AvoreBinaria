@@ -1,9 +1,7 @@
 package Avore.model;
 
 import java.util.Iterator;
-import java.util.Stack;
-
-import principal.model.Animal;
+import java.util.Stack;;
 
 //import Avore.model.No;
 
@@ -226,13 +224,13 @@ public class Avl<E extends Comparable<E>> implements Iterable<No<E>> {
 		int bal = no.getBal();
 
 		switch (bal) {
-			case 1:
+			case -1:
 				No<E> fEsq = no.getFesq();
 
 				if(fEsq.getBal() >= 0) return rotacaoDireta(no, fEsq);
 				return rotacaoDuplaDireita(no, fEsq);
 
-			case -1: 
+			case 1: 
 				No<E> fDir = no.getFdir();
 
 				if(fDir.getBal() <= 0) return rotacaoEsquerda(no, fDir);
@@ -251,8 +249,8 @@ public class Avl<E extends Comparable<E>> implements Iterable<No<E>> {
 		if(no != null) {
 			switch(no.getDado().compareTo(busca.getDado())){
 				case 0: return no;
-				case -1: return buscar(busca, no.getFesq());
-				case 1: return buscar(busca, no.getFdir());
+				case 1: return buscar(busca, no.getFesq());
+				case -1: return buscar(busca, no.getFdir());
 			}
 		}
 

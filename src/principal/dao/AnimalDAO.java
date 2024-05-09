@@ -1,11 +1,9 @@
 package principal.dao;
 
 import principal.model.Animal;
-import principal.model.Monitoramento;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -34,12 +32,19 @@ public class AnimalDAO {
 	}
 	
 	public void remover(int id) {
-		animais.remover(getAnimal(id).getDado());
+		No<Animal> no = getAnimal(id);
+
+		if(no == null){
+			System.out.println("ID não localizado");
+			return;
+		}
+
+		animais.remover(no.getDado());
 	}
 
 	public No<Animal> getAnimal(int id){
 		
-		return animais.buscar(new No<Animal>( new Animal(id)), animais.getRaiz());
+		return animais.buscar(new No<Animal>(new Animal(id)), animais.getRaiz());
 	}
 	
 	public void salvarAnimais(){
@@ -63,7 +68,6 @@ public class AnimalDAO {
 			}
 			escritor.close();
 		} catch (Exception e) {
-			// TODO: handle exception
 			System.out.println("ERRO!");
 		}
 
@@ -93,7 +97,6 @@ public class AnimalDAO {
 			}
 			scan.close();
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 	}
@@ -119,6 +122,7 @@ public class AnimalDAO {
 
 	public void consultar(int id){
 		Iterator<No<Animal>> itr = animais.iterator();
+
 		while(itr.hasNext()){
 			Animal animal = itr.next().getDado();
 			if(animal.getId() == id){
