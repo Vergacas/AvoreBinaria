@@ -111,9 +111,6 @@ public class AnimalDAO {
 			
 			System.out.println("ID: " + animal.getId());
 			System.out.println("Apelido: " + animal.getApelido());
-			System.out.println("Especie: " + animal.getEspecie());
-			System.out.println("Data Nascimento: " + animal.getDataNascimento());
-			System.out.println("Data de início de monitoramento: " + animal.getDataInicioMonitoramento());
 			System.out.println(" - - - - - - - - - - - - - - - - - - ");
 		}
 		

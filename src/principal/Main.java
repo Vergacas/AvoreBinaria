@@ -34,7 +34,9 @@ public class Main {
                         break;
                 case 2: if(animais.listar()) System.out.println("Nenhum animal cadastrado!");
                         else{
-                            animais.remover(Remocao(scanner));
+                            int id = Remocao(scanner);
+                            animais.remover(id);
+                            monitoramentos.remover(id);
                             fileSalved = false;
                         }
                         break;
@@ -174,7 +176,7 @@ public class Main {
             }
         }
 
-        System.out.println("Informe o peso do animal: ");
+        System.out.println("Informe o peso do animal (em Kg): ");
 
         while(true){
             try{
@@ -186,7 +188,7 @@ public class Main {
             }
         }
         
-        System.out.println("Informe a altura do animal: ");
+        System.out.println("Informe a altura do animal(em Cm): ");
         while(true){
             try{
                 altura = input.nextDouble();
@@ -197,7 +199,7 @@ public class Main {
             }
         }
 
-        System.out.println("Informe a temperatura do animal: ");
+        System.out.println("Informe a temperatura do animal(em °C): ");
         while(true){
             try{
                 temperatura = input.nextDouble();

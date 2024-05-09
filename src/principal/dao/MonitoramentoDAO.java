@@ -31,7 +31,13 @@ public class MonitoramentoDAO {
 	}
 	
 	public void remover(int id) {
-		monitoramentos.remover(getMonitoramento(id));
+		Iterator<No<Monitoramento>> itr = monitoramentos.iterator();
+		while(itr.hasNext()){
+			Monitoramento monitoramento = itr.next().getDado();
+			if (monitoramento.getId_animal() == id) {
+				monitoramentos.remover(monitoramento);
+			}
+		}
 	}
 
 	public Monitoramento getMonitoramento(int id){
@@ -112,10 +118,10 @@ public class MonitoramentoDAO {
 			Monitoramento monitoramento = itr.next().getDado();
 			if(monitoramento.getId_animal() == id){
 				System.out.println(" - - - - - - - - - - - - - - - - - - - - ");
-				System.out.println("Data: " + monitoramento.getDataAvaliacao());
-				System.out.println("Peso: " + monitoramento.getPeso());
-				System.out.println("Altura: " + monitoramento.getAltura());
-				System.out.println("Temperatura: " + monitoramento.getTemperatura());
+				System.out.println("Data da avaliação: " + monitoramento.getDataAvaliacao());
+				System.out.println("Peso(em Kg): " + monitoramento.getPeso());
+				System.out.println("Altura(em Cm): " + monitoramento.getAltura());
+				System.out.println("Temperatura(em °C): " + monitoramento.getTemperatura());
 				if(monitoramento.getColetaSangue())	System.out.println("Coleta de sangue: Sim");
 				else System.out.println("Coleta de sangue: Não");
 				if(monitoramento.getExameFisico()) System.out.println("Exame físico: Sim");
