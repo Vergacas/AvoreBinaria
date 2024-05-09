@@ -167,70 +167,72 @@ public class Avl<E extends Comparable<E>> implements Iterable<No<E>> {
 		}
 	}
 
-	
-	/* Remove o no e retorna a sub-avore desse no sem ele*/
-	private No<E> removerRaiz(No<E> NoRemovivel){
-		No<E> saida = null;
-		/*Se so tem 1 elemento */
-		if (NoRemovivel.getFdir() == null && NoRemovivel.getFesq() == null) {	
-			return saida;
+	public No<E> remover(No<E> no, E dado){
+		if(no == null) return no;
+
+ 		switch (dado.compareTo(no.getDado())) {
+			case -1:
+				//Chave é menor que a chave do nó atual
+				no.setFesq(remover(no.getFesq(), dado));
+				break;
+			case 1:
+				//Chave é maior que a chave do nó atual
+				no.setFdir(remover(no.getFdir(), dado));					
+				break;
+			case 0:
+				//Chave é igual a chave do nó atual
+				
+				//Verificar se tem algum filho vazio
+				if(no.getFesq() == null || no.getFdir() == null){
+					No<E> aux = null;
+					//Verificar se tem filho a esquerda
+					if(aux == no.getFesq()) aux = no.getFdir();
+					else aux = no.getFesq();
+					//Verificar caso o nó não tenha filhos
+					if(aux == null){
+						aux = no;
+						no = null;
+					} else {
+						//Caso o nó tenha um filho
+						no = aux;
+						
+					}
+				} else {
+					//Caso o nó tenha dois filhos
+					No<E> aux = sucessor(no.getFdir());
+					no.setDado(aux.getDado());
+					no.setFdir(remover(no.getFdir(), aux.getDado()));
+				}
+				break;
+
 		}
 
-		/* Se tem 2 ou 3 elementos*/
-		if (NoRemovivel.getFdir() == null || NoRemovivel.getFesq() == null) {
-			
-			if (NoRemovivel.getFdir() == null ) {
-				saida = NoRemovivel.getFesq();
-			}else if (NoRemovivel.getFesq() == null) {
-				saida = NoRemovivel.getFdir();
-			}else{
-				saida = NoRemovivel.getFdir();
-			}
-			return saida;
+		if(no == null) return no;
 
+		no.setBal(calcAltura(no.getFdir()) - calcAltura(no.getFesq()));
+
+		int bal = no.getBal();
+
+		switch (bal) {
+			case 1:
+				No<E> fEsq = no.getFesq();
+
+				if(fEsq.getBal() >= 0) return rotacaoDireta(no, fEsq);
+				return rotacaoDuplaDireita(no, fEsq);
+
+			case -1: 
+				No<E> fDir = no.getFdir();
+
+				if(fDir.getBal() <= 0) return rotacaoEsquerda(no, fDir);
+				return rotacaoDuplaEsquerda(no, fDir);
 		}
 
-		/* Avore com mais de 3 elemetos */
-
-		return saida;
+		return no;
 	}
 
-	public E remover(E dado){
-		E saida = null;
-		boolean auxiliar = true;
-		No<E> noAuxiliar = raiz;
-		No<E> noAnterior = null;
-		
-		/* Loop para procurar o no q deve ser removido */
-		while (auxiliar) {
-			switch (dado.compareTo(noAuxiliar.getDado())) {
-				case -1:
-					noAnterior = noAuxiliar;
-					noAuxiliar = noAnterior.getFesq();
-					break;
-				case 0:
-					
-					saida = noAuxiliar.getDado();
-					noAuxiliar = removerRaiz(noAuxiliar);
-					if (noAnterior == null) {
-						setRaiz(noAuxiliar);
-					}else{
-						if (noAuxiliar.getDado().compareTo(noAnterior.getDado()) == -1) {
-							noAnterior.setFesq(noAuxiliar);
-						}else{
-							noAnterior.setFdir(noAuxiliar);
-						}
-					}
-					break;
-				case 1:
-					break;
-				default:
-					noAnterior = noAuxiliar;
-					noAuxiliar = noAnterior.getFesq();
-					break;
-			}
-		}
-		return saida;
+	public No<E> sucessor(No<E> no){
+		if(no.getFdir() != null) return sucessor(no.getFdir());
+		return no;
 	}
 
 	public No<E> buscar(No<E> busca , No<E> no){

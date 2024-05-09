@@ -29,11 +29,11 @@ public class AnimalDAO {
 	}
 	
 	public void addAnimal(Animal a) {
-		animais.inserir(a, animais.getRaiz());
+		System.out.println(animais.inserir(a, animais.getRaiz()).getDado().getApelido());
 	}
 	
-	public void remover(Animal a) {
-		animais.remover(a);
+	public void remover(int id) {
+		animais.remover(animais.getRaiz(),getAnimal(id).getDado());
 	}
 
 	public No<Animal> getAnimal(int id){
@@ -112,6 +112,7 @@ public class AnimalDAO {
 			System.out.println("Data de início de monitoramento: " + animal.getDataInicioMonitoramento());
 			System.out.println(" - - - - - - - - - - - - - - - - - - ");
 		}
+		
 		return animais.isEmpty();
 	}
 

@@ -1,8 +1,4 @@
 package principal.model;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class Animal implements Comparable<Animal> {
     /* Atributos */
 	private Integer id;
