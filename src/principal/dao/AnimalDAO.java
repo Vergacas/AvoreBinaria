@@ -6,14 +6,18 @@ import principal.model.Monitoramento;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
+import Avore.model.Avl;
+import Avore.model.No;
+
 public class AnimalDAO {
-	private ArrayList<Animal> animais;
+	private Avl<Animal> animais;
 	private static AnimalDAO bdAnimais;
 
 	public AnimalDAO() {
-		animais = new ArrayList<>();
+		animais = new Avl<Animal>();
 		recuperarAnimais();
 	}
 
@@ -25,20 +29,16 @@ public class AnimalDAO {
 	}
 	
 	public void addAnimal(Animal a) {
-		animais.add(a);
+		animais.inserir(a, animais.getRaiz());
 	}
 	
 	public void remover(int id) {
 		animais.remove(getAnimal(id));
 	}
 
-	public Animal getAnimal(int id){
-		for (Animal animal : animais) {
-			if (animal.getId() == id) {
-				return animal;
-			}
-		}
-		return null;
+	public No<Animal> getAnimal(int id){
+		
+		return animais.buscar(new No<Animal>( new Animal(id)), animais.getRaiz());
 	}
 	
 	public void salvarAnimais(){
@@ -48,7 +48,11 @@ public class AnimalDAO {
 		
 			FileWriter escritor = new FileWriter(caminho);
 			String output = "";
-			for(Animal animal : animais) {
+
+			Iterator<No<Animal>> itr = animais.iterator();
+			while(itr.hasNext()){
+				Animal animal = itr.next().getDado();
+
 				output = String.valueOf(animal.getId()) + ";" + animal.getApelido()
 				+ ";" + animal.getEspecie() + ";" + animal.getDataNascimento() + ";"
 				+ animal.getSexo() + ";" + animal.getDataInicioMonitoramento() + "\n";
@@ -83,9 +87,8 @@ public class AnimalDAO {
 				char sexo = dadosAnimal[i++].charAt(0);
 				a.setSexo(sexo);
 				a.setDataInicioMonitoramento(dadosAnimal[i++]);
-				a.setHistorico(new ArrayList<Monitoramento>());
 				
-				animais.add(a);
+				animais.inserir(a, animais.getRaiz());
 			}
 			scan.close();
 		} catch (Exception e) {
@@ -96,8 +99,9 @@ public class AnimalDAO {
 
 	public boolean listar(){
 		System.out.println("Animais cadastrados: ");
-		for(int i=0; i<animais.size(); ++i){
-			Animal animal = animais.get(i);
+		Iterator<No<Animal>> itr = animais.iterator();
+		while(itr.hasNext()){
+			Animal animal = itr.next().getDado();
 
 			System.out.println(" - - - - - - - - - - - - - - - - - - ");
 			
@@ -112,27 +116,12 @@ public class AnimalDAO {
 	}
 
 	public void consultar(int id){
-		Animal animal = getAnimal(id);
+		Animal animal = getAnimal(id).getDado();
 
 		System.out.println("ID: " + animal.getId());
 		System.out.println("Apelido: " + animal.getApelido());
 		System.out.println("Especie: " + animal.getEspecie());
 		System.out.println("Data de Nascimento: " + animal.getDataNascimento());
-		System.out.println("Data de início de Monitoramento: " + animal.getDataInicioMonitoramento());
-		System.out.println("Histórico de monitoramento: ");
-
-		if(animal.getHistorico().isEmpty()) System.out.println("Vazio.");
-		else for(Monitoramento monitoramento : animal.getHistorico()) {
-			System.out.println("- - - - - - - - - - - - - - - - - - - - - -");
-			System.out.println(monitoramento);
-			System.out.println("- - - - - - - - - - - - - - - - - - - - - -");
-		}
-			
-	}
-
-	public void cadastrar(Monitoramento monitoramento){
-		Animal animal = getAnimal(monitoramento.getId_animal());
-
-		animal.addMonitoramento(monitoramento);
+		System.out.println("Data de início de Monitoramento: " + animal.getDataInicioMonitoramento());	
 	}
 }

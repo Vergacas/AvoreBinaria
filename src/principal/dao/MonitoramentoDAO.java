@@ -1,18 +1,23 @@
 package principal.dao;
 
+import principal.model.Animal;
 import principal.model.Monitoramento;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Iterator;
+
+import Avore.model.Avl;
+import Avore.model.No;
 
 public class MonitoramentoDAO {
-	private ArrayList<Monitoramento> monitoramentos;
+	private Avl<Monitoramento> monitoramentos;
 	private static MonitoramentoDAO bdMonitoramentos;
 
 	public MonitoramentoDAO() {
-		monitoramentos = new ArrayList<>();
+		monitoramentos = new Avl<>();
 		recuperarMonitoramentos();
 	}
 
@@ -24,7 +29,7 @@ public class MonitoramentoDAO {
 	}
 	
 	public void addMonitoramento(Monitoramento a) {
-		monitoramentos.add(a);
+		monitoramentos.inserir(a, monitoramentos.getRaiz());
 	}
 	
 	public void remover(int id) {
@@ -32,7 +37,9 @@ public class MonitoramentoDAO {
 	}
 
 	public Monitoramento getMonitoramento(int id){
-		for (Monitoramento monitoramento : monitoramentos) {
+		Iterator<No<Monitoramento>> itr = monitoramentos.iterator();
+		while(itr.hasNext()){
+			Monitoramento monitoramento = itr.next().getDado();
 			if (monitoramento.getId_monitoramento() == id) {
 				return monitoramento;
 			}
@@ -47,7 +54,9 @@ public class MonitoramentoDAO {
 		
 			FileWriter escritor = new FileWriter(caminho);
 			String output = "";
-			for(Monitoramento monitoramento : monitoramentos) {
+			Iterator<No<Monitoramento>> itr = monitoramentos.iterator();
+			while(itr.hasNext()){
+				Monitoramento monitoramento = itr.next().getDado();
 				output = monitoramento.getId_monitoramento() + ";" + monitoramento.getId_animal()
 					+ ";" + monitoramento.getPeso() + ";" + monitoramento.getAltura()
 					+ ";" + monitoramento.getTemperatura() + ";" + monitoramento.getColetaSangue()
@@ -85,7 +94,7 @@ public class MonitoramentoDAO {
 				a.setExameFisico(Boolean.valueOf(dadosMonitoramento[i++]));
 				a.setObservacao(dadosMonitoramento[i++]);
 
-				monitoramentos.add(a);
+				monitoramentos.inserir(a, monitoramentos.getRaiz());
 			}
 			scan.close();
 		} catch (Exception e) {
@@ -94,14 +103,26 @@ public class MonitoramentoDAO {
 		}
 	}
 
-	public void consultar(int id){
-		Monitoramento monitoramento = getMonitoramento(id);
-
-		System.out.println(monitoramento);
-			
-	}
-
 	public int size(){
 		return 1;
+	}
+
+	public void consultar(int id){
+		Iterator<No<Monitoramento>> itr = monitoramentos.iterator();
+		while(itr.hasNext()){
+			Monitoramento monitoramento = itr.next().getDado();
+			if(monitoramento.getId_animal() == id){
+				System.out.println("Data: " + monitoramento.getDataAvaliacao());
+				System.out.println("Peso: " + monitoramento.getPeso());
+				System.out.println("Altura: " + monitoramento.getAltura());
+				System.out.println("Temperatura: " + monitoramento.getTemperatura());
+				if(monitoramento.getColetaSangue())	System.out.println("Coleta de sangue: Sim");
+				else System.out.println("Coleta de sangue: Não");
+				if(monitoramento.getExameFisico()) System.out.println("Exame físico: Sim");
+				else System.out.println("Exame físico: Não");
+				System.out.println("Observações: " + monitoramento.getObservacao());
+	
+			}
+		}
 	}
 }
