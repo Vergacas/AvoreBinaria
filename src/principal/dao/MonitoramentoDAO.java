@@ -32,8 +32,8 @@ public class MonitoramentoDAO {
 		monitoramentos.inserir(a, monitoramentos.getRaiz());
 	}
 	
-	public void remover(int id) {
-		monitoramentos.remove(getMonitoramento(id));
+	public void remover(Monitoramento a) {
+		monitoramentos.remover(a);
 	}
 
 	public Monitoramento getMonitoramento(int id){

@@ -32,8 +32,8 @@ public class AnimalDAO {
 		animais.inserir(a, animais.getRaiz());
 	}
 	
-	public void remover(int id) {
-		animais.remove(getAnimal(id));
+	public void remover(Animal a) {
+		animais.remover(a);
 	}
 
 	public No<Animal> getAnimal(int id){
