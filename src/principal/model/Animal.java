@@ -21,9 +21,8 @@ public class Animal implements Comparable<Animal> {
         this.id = id;
     }
 
-    public Animal(int id, char sexo, String apelido, String especie,
+    public Animal(char sexo, String apelido, String especie,
      String dataNascimento, String dataMonitoramento){
-        this.id = id;
         this.sexo = sexo;
         this.apelido = apelido;
         this.especie = especie;

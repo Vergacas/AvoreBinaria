@@ -29,6 +29,7 @@ public class AnimalDAO {
 	}
 	
 	public void addAnimal(Animal a) {
+		a.setId(animais.size()+1);
 		animais.inserir(a);
 	}
 	
@@ -74,8 +75,8 @@ public class AnimalDAO {
 
 			File file = new File("salvos/animais.txt");
 			Scanner scan = new Scanner(file);
-			Animal a = new Animal();
 			while (scan.hasNextLine()) {
+				Animal a = new Animal();
 				int i = 0;
 				String[] dadosAnimal;
 				String recuperar = scan.nextLine();
@@ -117,12 +118,20 @@ public class AnimalDAO {
 	}
 
 	public void consultar(int id){
-		Animal animal = getAnimal(id).getDado();
+		Iterator<No<Animal>> itr = animais.iterator();
+		while(itr.hasNext()){
+			Animal animal = itr.next().getDado();
+			if(animal.getId() == id){
+				System.out.println("ID: " + animal.getId());
+				System.out.println("Apelido: " + animal.getApelido());
+				System.out.println("Especie: " + animal.getEspecie());
+				System.out.println("Data de Nascimento: " + animal.getDataNascimento());
+				System.out.println("Data de início de Monitoramento: " + animal.getDataInicioMonitoramento());
+			}	
+		}
+	}
 
-		System.out.println("ID: " + animal.getId());
-		System.out.println("Apelido: " + animal.getApelido());
-		System.out.println("Especie: " + animal.getEspecie());
-		System.out.println("Data de Nascimento: " + animal.getDataNascimento());
-		System.out.println("Data de início de Monitoramento: " + animal.getDataInicioMonitoramento());	
+	public int size(){
+		return animais.size();
 	}
 }

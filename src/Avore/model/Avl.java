@@ -3,6 +3,8 @@ package Avore.model;
 import java.util.Iterator;
 import java.util.Stack;
 
+import principal.model.Animal;
+
 //import Avore.model.No;
 
 public class Avl<E extends Comparable<E>> implements Iterable<No<E>> {
@@ -262,6 +264,17 @@ public class Avl<E extends Comparable<E>> implements Iterable<No<E>> {
 		return false;
 	}
 
+	public int size(){
+		int i = 0;
+		Iterator<No<E>> itr = this.iterator();
+		while(itr.hasNext()){
+			itr.next();
+			i++;
+		}
+
+		return i;
+	}
+
 	/* Iterador */
 
 	 // Implementação do iterador para a travessia em ordem
@@ -292,6 +305,7 @@ public class Avl<E extends Comparable<E>> implements Iterable<No<E>> {
             }
         }
     }
+
 	@Override
 	public Iterator<No<E>> iterator() {
 		return new InOrderIterator(raiz);

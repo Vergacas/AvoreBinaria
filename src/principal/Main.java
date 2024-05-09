@@ -47,7 +47,7 @@ public class Main {
                         break;
                 case 4: if(animais.listar()) System.out.println("Nenhum animal cadastrado!");
                         else{                 
-                            monitoramentos.addMonitoramento(Registro(scanner, monitoramentos.size()));
+                            monitoramentos.addMonitoramento(Registro(scanner));
                             fileSalved = false;
                         }                        
                         break;
@@ -88,24 +88,11 @@ public class Main {
     }
 
     public static Animal Cadastro(Scanner input){
-        int id;
         char sexo;
         String apelido, especie, dataNascimento, dataMonitoramento;
 
-        System.out.println("Informe o id do animal: ");
-
-        while(true){    
-            try{
-                id = input.nextInt();
-                break;
-            } catch(Exception e) {
-                System.out.println("ID não válida. Tente novamente.");
-                input.next();
-            }
-        }
-        input.nextLine();
-
         System.out.println("Informe o apelido do animal: ");
+        input.nextLine();
         apelido = input.nextLine();
 
         System.out.println("Informe a especie do animal: ");
@@ -126,10 +113,12 @@ public class Main {
         System.out.println("Para as datas a seguir, utilize o formato dd-MM-AAAA");
         System.out.println("Informe a data de nascimento do animal(caso não saiba aperte enter): ");
         dataNascimento = input.nextLine();
+        if(dataNascimento == "") dataNascimento = "00-00-0000";
         System.out.println("Informe a data de início do monitoramento: ");
         dataMonitoramento = input.nextLine();
+        if(dataMonitoramento == "") dataMonitoramento = "00-00-0000";
             
-        Animal animal = new Animal(id, sexo, apelido, especie, dataNascimento, dataMonitoramento);
+        Animal animal = new Animal(sexo, apelido, especie, dataNascimento, dataMonitoramento);
         return animal;
     }
 
@@ -167,9 +156,9 @@ public class Main {
         return id;
     }
 
-    public static Monitoramento Registro(Scanner input, int id){
+    public static Monitoramento Registro(Scanner input){
         char aux;
-        int idAnimal = -1, idMonit = id;
+        int idAnimal = -1;
         String observacao, data;
         double peso, altura, temperatura;
         boolean coletaSangue, exameFisico;
@@ -259,7 +248,7 @@ public class Main {
         System.out.println("Informe a data de realização do monitoramento(dd-MM-AAAA): ");
         data = input.next();
 
-        return new Monitoramento(idMonit, idAnimal, peso, altura, temperatura, coletaSangue, exameFisico, observacao, data);
+        return new Monitoramento(idAnimal, peso, altura, temperatura, coletaSangue, exameFisico, observacao, data);
     }
 
     public static boolean Sair(boolean fileSalved, Scanner input){

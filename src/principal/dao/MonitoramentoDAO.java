@@ -1,6 +1,4 @@
 package principal.dao;
-
-import principal.model.Animal;
 import principal.model.Monitoramento;
 
 import java.io.File;
@@ -29,6 +27,7 @@ public class MonitoramentoDAO {
 	}
 	
 	public void addMonitoramento(Monitoramento a) {
+		a.setId_monitoramento(monitoramentos.size()+1);
 		monitoramentos.inserir(a);
 	}
 	
@@ -103,10 +102,6 @@ public class MonitoramentoDAO {
 		}
 	}
 
-	public int size(){
-		return 1;
-	}
-
 	public void consultar(int id){
 		Iterator<No<Monitoramento>> itr = monitoramentos.iterator();
 		while(itr.hasNext()){
@@ -124,5 +119,9 @@ public class MonitoramentoDAO {
 	
 			}
 		}
+	}
+
+	public int size(){
+		return monitoramentos.size();
 	}
 }
