@@ -26,15 +26,20 @@ public class Avl<E extends Comparable<E>> implements Iterable<No<E>> {
 		return raiz;
 	}
 
+
+	public void inserir(E dado){
+		raiz = inserirAVL(dado, raiz);
+	}
+	
 	//Método para inserção de um nó na AVL
-	public No<E> inserir(E dado, No<E> no) {
+	private No<E> inserirAVL(E dado, No<E> no) {
 		if (no == null) {
 			no = new No<E>(dado);
 			h = true;
 		} else {
 			switch (dado.compareTo(no.getDado())){
 				case -1:
-					no.setFesq(inserir(dado, no.getFesq()));
+					no.setFesq(inserirAVL(dado, no.getFesq()));
 					if(h){
 						switch(no.getBal()){
 							case 0:
@@ -58,7 +63,7 @@ public class Avl<E extends Comparable<E>> implements Iterable<No<E>> {
 					//Nó duplicado
 					break;
 				case 1:
-					no.setFdir(inserir(dado, no.getFdir()));
+					no.setFdir(inserirAVL(dado, no.getFdir()));
 					if(h){
 						switch(no.getBal()){
 							case 0:
@@ -151,6 +156,7 @@ public class Avl<E extends Comparable<E>> implements Iterable<No<E>> {
 			System.out.println("Raiz: " + raiz.getDado());
 			imprimirNos(raiz);
 		}
+		else System.out.println("Árvore vazia");
 	}
 
 	public void imprimirNos(No<E> no){
@@ -167,17 +173,21 @@ public class Avl<E extends Comparable<E>> implements Iterable<No<E>> {
 		}
 	}
 
-	public No<E> remover(No<E> no, E dado){
+	public void remover(E dado){
+		raiz = removerAVL(dado, raiz);
+	}
+
+	public No<E> removerAVL(E dado, No<E> no){
 		if(no == null) return no;
 
  		switch (dado.compareTo(no.getDado())) {
 			case -1:
 				//Chave é menor que a chave do nó atual
-				no.setFesq(remover(no.getFesq(), dado));
+				no.setFesq(removerAVL(dado, no.getFesq()));
 				break;
 			case 1:
 				//Chave é maior que a chave do nó atual
-				no.setFdir(remover(no.getFdir(), dado));					
+				no.setFdir(removerAVL(dado, no.getFdir()));					
 				break;
 			case 0:
 				//Chave é igual a chave do nó atual
@@ -201,7 +211,7 @@ public class Avl<E extends Comparable<E>> implements Iterable<No<E>> {
 					//Caso o nó tenha dois filhos
 					No<E> aux = sucessor(no.getFdir());
 					no.setDado(aux.getDado());
-					no.setFdir(remover(no.getFdir(), aux.getDado()));
+					no.setFdir(removerAVL(aux.getDado(), no.getFdir()));
 				}
 				break;
 

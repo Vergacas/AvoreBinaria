@@ -29,11 +29,11 @@ public class MonitoramentoDAO {
 	}
 	
 	public void addMonitoramento(Monitoramento a) {
-		monitoramentos.inserir(a, monitoramentos.getRaiz());
+		monitoramentos.inserir(a);
 	}
 	
 	public void remover(int id) {
-		monitoramentos.remover(monitoramentos.getRaiz(), getMonitoramento(id));
+		monitoramentos.remover(getMonitoramento(id));
 	}
 
 	public Monitoramento getMonitoramento(int id){
@@ -94,7 +94,7 @@ public class MonitoramentoDAO {
 				a.setExameFisico(Boolean.valueOf(dadosMonitoramento[i++]));
 				a.setObservacao(dadosMonitoramento[i++]);
 
-				monitoramentos.inserir(a, monitoramentos.getRaiz());
+				monitoramentos.inserir(a);
 			}
 			scan.close();
 		} catch (Exception e) {

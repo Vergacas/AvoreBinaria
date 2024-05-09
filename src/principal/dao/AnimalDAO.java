@@ -29,11 +29,11 @@ public class AnimalDAO {
 	}
 	
 	public void addAnimal(Animal a) {
-		System.out.println(animais.inserir(a, animais.getRaiz()).getDado().getApelido());
+		animais.inserir(a);
 	}
 	
 	public void remover(int id) {
-		animais.remover(animais.getRaiz(),getAnimal(id).getDado());
+		animais.remover(getAnimal(id).getDado());
 	}
 
 	public No<Animal> getAnimal(int id){
@@ -88,7 +88,7 @@ public class AnimalDAO {
 				a.setSexo(sexo);
 				a.setDataInicioMonitoramento(dadosAnimal[i++]);
 				
-				animais.inserir(a, animais.getRaiz());
+				animais.inserir(a);
 			}
 			scan.close();
 		} catch (Exception e) {
