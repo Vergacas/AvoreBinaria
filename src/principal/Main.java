@@ -39,13 +39,15 @@ public class Main {
                         }
                         break;
                 case 3: if(animais.listar()) System.out.println("Nenhum animal cadastrado!");
-                        else animais.consultar(Consulta(scanner));
+                        else {
+                            int id = Consulta(scanner);
+                            animais.consultar(id);
+                            monitoramentos.consultar(id);
+                        }
                         break;
                 case 4: if(animais.listar()) System.out.println("Nenhum animal cadastrado!");
-                        else{
-                            Monitoramento monitoramento = Registro(scanner, monitoramentos.size());
-                            animais.cadastrar(monitoramento);
-                            monitoramentos.addMonitoramento(monitoramento);
+                        else{                 
+                            monitoramentos.addMonitoramento(Registro(scanner, monitoramentos.size()));
                             fileSalved = false;
                         }                        
                         break;
