@@ -1,4 +1,4 @@
-package principal.model;
+package model;
 
 public class Monitoramento implements Comparable<Monitoramento>{
     /* Atributos */

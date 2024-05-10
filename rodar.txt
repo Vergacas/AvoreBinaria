@@ -1,0 +1,4 @@
+javac -d bin src/Avore/model/*.java 
+javac -d bin src/principal/model/*.java
+javac -d bin  src/principal/dao/*.java
+javac -d bin  src/principal/view/main.java

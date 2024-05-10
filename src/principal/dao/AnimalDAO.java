@@ -1,6 +1,6 @@
-package principal.dao;
+package dao;
 
-import principal.model.Animal;
+import model.Animal;
 
 import java.io.File;
 import java.io.FileWriter;

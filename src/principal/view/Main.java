@@ -1,9 +1,10 @@
-package principal;
+package view;
 
-import principal.dao.AnimalDAO;
-import principal.dao.MonitoramentoDAO;
-import principal.model.Animal;
-import principal.model.Monitoramento;
+
+import dao.AnimalDAO;
+import dao.MonitoramentoDAO;
+import model.Animal;
+import model.Monitoramento;
 
 import java.util.Scanner;
 import java.io.IOException;

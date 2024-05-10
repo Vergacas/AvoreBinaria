@@ -1,5 +1,5 @@
-package principal.dao;
-import principal.model.Monitoramento;
+package dao;
+import model.Monitoramento;
 
 import java.io.File;
 import java.io.FileWriter;

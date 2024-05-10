@@ -1,4 +1,4 @@
-package principal.model;
+package model;
 public class Animal implements Comparable<Animal> {
     /* Atributos */
 	private Integer id;
