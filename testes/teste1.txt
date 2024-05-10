@@ -1,0 +1,24 @@
+%% Exemplo de sequência de entradas %%
+1
+Vivi
+Macaco
+F
+03-03-2007
+06-02-2024
+3
+2
+4
+1
+70
+200
+36
+n
+s
+Desnutrição
+10-03-2023
+3
+1
+2
+2
+6
+s
