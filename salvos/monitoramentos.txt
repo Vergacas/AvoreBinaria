@@ -1,2 +1,2 @@
-1;4;3.6;2.9;25.0;true;false;-;08.052
-2;4;2.3;1.4;2.5;false;true;Teste;0.0..
+1;2;1.4;46.0;32.0;true;false;-;08-04-2024
+2;2;1.6;46.0;35.0;false;true;Animal apresentou dificuldade de locomoção;04-01-2023

@@ -240,9 +240,12 @@ public class Main {
             }
         }
 
+ 
+        
         if(exameFisico){
             System.out.println("Descreva o problema notado durante o exame: ");
             observacao = input.next();
+            observacao += input.nextLine();
         } else {
             observacao = "-";
         }
